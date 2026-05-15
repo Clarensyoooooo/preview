@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PapaFix — Full App Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue:       #1A73E8;
+  --blue-l:     #E8F0FE;
+  --blue-m:     #4285F4;
+  --green:      #1E8E3E;
+  --green-l:    #E6F4EA;
+  --red:        #D93025;
+  --red-l:      #FCE8E6;
+  --amber:      #F9AB00;
+  --amber-l:    #FEF7E0;
+  --teal:       #00897B;
+  --teal-l:     #E0F2F1;
+  --orange:     #E37400;
+  --orange-l:   #FFF3E0;
+  --n0:   #FFFFFF;
+  --n50:  #F8F9FA;
+  --n100: #F1F3F4;
+  --n200: #E8EAED;
+  --n300: #DADCE0;
+  --n400: #BDC1C6;
+  --n500: #9AA0A6;
+  --n600: #80868B;
+  --n700: #5F6368;
+  --n800: #3C4043;
+  --n900: #202124;
+  --f: 'DM Sans', sans-serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--f);
+  background: #EEF2F8;
+  color: var(--n900);
+  min-height: 100vh;
+  padding-bottom: 64px;
+}
+
+/* ── PAGE LAYOUT ── */
+.page-wrap { max-width: 1600px; margin: 0 auto; padding: 0 32px; }
+
+.page-hero {
+  text-align: center;
+  padding: 52px 24px 40px;
+}
+.wordmark {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--n900);
+  letter-spacing: -1px;
+}
+.wordmark b { color: var(--blue); font-weight: 700; }
+.page-tagline {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--n600);
+  font-weight: 400;
+}
+.area-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  background: var(--n0);
+  border: 1px solid var(--n200);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12px;
+  color: var(--n700);
+  font-weight: 500;
+}
+.area-badge svg { color: var(--blue); }
+
+.section-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.section-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.section-pill.customer { background: var(--blue); color: #fff; }
+.section-pill.tech     { background: var(--orange); color: #fff; }
+.section-line { flex: 1; height: 1px; background: var(--n200); }
+.section-desc { font-size: 12px; color: var(--n600); white-space: nowrap; }
+
+.phones-row {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.phones-row::-webkit-scrollbar { display: none; }
+
+/* ── ANDROID FRAME ── */
+.android {
+  width: 272px;
+  flex-shrink: 0;
+  background: #1C1B1F;
+  border-radius: 44px;
+  padding: 3px;
+  box-shadow:
+    0 0 0 1px #2D2C31,
+    0 24px 64px rgba(0,0,0,0.2),
+    0 6px 16px rgba(0,0,0,0.1);
+  position: relative;
+}
+/* Volume buttons */
+.android::before {
+  content: '';
+  position: absolute;
+  right: -3px; top: 100px;
+  width: 3px; height: 60px;
+  background: #2C2C30;
+  border-radius: 0 2px 2px 0;
+}
+/* Power button */
+.android::after {
+  content: '';
+  position: absolute;
+  left: -3px; top: 130px;
+  width: 3px; height: 36px;
+  background: #2C2C30;
+  border-radius: 2px 0 0 2px;
+}
+
+.android-bezel {
+  background: #000;
+  border-radius: 42px;
+  overflow: hidden;
+}
+
+/* Punch-hole camera */
+.punch-hole {
+  height: 38px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ph-cam {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: #111;
+  border: 1.5px solid #222;
+  box-shadow: inset 0 0 3px rgba(100,180,255,0.15);
+}
+
+.screen {
+  background: var(--n0);
+  height: 568px; /* Fixed height to allow scrolling inner content */
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+.screen::-webkit-scrollbar { display: none; }
+.screen.has-nav {
+  padding-bottom: 74px; /* Space for the absolute floating nav */
+}
+
+/* Android gesture bar */
+.gesture-bar {
+  height: 22px;
+  background: var(--n0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 101; /* Ensure gesture bar is above floating elements */
+}
+.gesture-pill {
+  width: 48px; height: 4px;
+  background: var(--n300);
+  border-radius: 4px;
+}
+
+/* ── STATUS BAR ── */
+.sb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 18px 4px;
+}
+.sb-time { font-size: 13px; font-weight: 700; color: var(--n900); }
+.sb-right { display: flex; gap: 4px; align-items: center; }
+
+/* ── SHARED COMPONENTS ── */
+.topbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: 6px 16px 12px;
+  border-bottom: 1px solid var(--n200);
+}
+.back-btn {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--n100); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; cursor: pointer;
+}
+.topbar-title { font-size: 16px; font-weight: 700; color: var(--n900); }
+.topbar-sub { font-size: 11px; color: var(--n500); font-weight: 400; margin-top: 1px; }
+
+/* ── PILL BOTTOM NAV ── */
+.bottom-nav {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 32px;
+  display: flex;
+  justify-content: space-between;
+  padding: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  z-index: 100;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 14px; border-radius: 24px;
+  font-size: 12px; font-weight: 700; color: var(--n500);
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+.nav-item svg { width: 18px; height: 18px; stroke: currentColor; flex-shrink: 0; }
+.nav-item span { display: none; }
+
+.nav-item.active { background: var(--blue-l); color: var(--blue); }
+.nav-item.active span { display: block; }
+
+.nav-item.active-tech { background: var(--orange-l); color: var(--orange); }
+.nav-item.active-tech span { display: block; }
+
+.nav-pip { position: absolute; top: 6px; left: 26px; width: 8px; height: 8px; border-radius: 50%; background: var(--red); border: 2px solid var(--n0); }
+
+.chip { padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; border: 1.5px solid var(--n200); background: var(--n0); color: var(--n700); cursor: pointer; }
+.chip.on { border-color: var(--blue); background: var(--blue-l); color: var(--blue); font-weight: 600; }
+.chip.on-tech { border-color: var(--orange); background: var(--orange-l); color: var(--orange); font-weight: 600; }
+
+.card { background: var(--n0); border: 1px solid var(--n200); border-radius: 14px; }
+
+.lbl { font-size: 11px; font-weight: 600; color: var(--n700); margin-bottom: 6px; letter-spacing: 0.1px; }
+
+.ph-col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.ph-label { font-size: 10px; font-weight: 600; color: var(--n600); letter-spacing: 0.8px; text-transform: uppercase; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.ph-col { animation: fadeUp 0.45s cubic-bezier(.22,.68,0,1.1) both; }
+.ph-col:nth-child(1){animation-delay:0.04s}
+.ph-col:nth-child(2){animation-delay:0.10s}
+.ph-col:nth-child(3){animation-delay:0.16s}
+.ph-col:nth-child(4){animation-delay:0.22s}
+.ph-col:nth-child(5){animation-delay:0.28s}
+.ph-col:nth-child(6){animation-delay:0.34s}
+
+/* ══════════════════════════════════
+   CUSTOMER SCREENS
+══════════════════════════════════ */
+
+/* C1 HOME */
+.c-greeting { padding: 6px 16px 14px; }
+.c-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.c-hello { font-size: 12px; color: var(--n600); }
+.c-name  { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
+.avatar  { width: 38px; height: 38px; border-radius: 50%; background: var(--blue-l); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: var(--blue); }
+
+.loc-row { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--n700); font-weight: 500; }
+.loc-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+
+.search-bar {
+  margin: 0 16px 14px;
+  background: var(--n100); border-radius: 28px;
+  padding: 10px 14px; display: flex; align-items: center; gap: 8px;
+}
+.search-bar span { font-size: 12px; color: var(--n500); }
+
+.cat-row { padding: 0 16px; display: flex; gap: 7px; margin-bottom: 16px; overflow: hidden; }
+
+.promo {
+  margin: 0 16px 16px;
+  background: var(--blue); border-radius: 14px;
+  padding: 14px; color: #fff; position: relative; overflow: hidden;
+}
+.promo::after { content:''; position:absolute; right:-18px;top:-18px; width:90px;height:90px; border-radius:50%; background:rgba(255,255,255,0.07); }
+.promo-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.75; margin-bottom: 4px; }
+.promo-h { font-size: 15px; font-weight: 700; margin-bottom: 2px; letter-spacing: -0.2px; }
+.promo-s { font-size: 10px; opacity: 0.7; margin-bottom: 10px; }
+.promo-cta { display: inline-block; background:#fff; color:var(--blue); font-size:11px; font-weight:700; padding:5px 13px; border-radius:20px; cursor:pointer; }
+
+.nearby-head { display:flex; justify-content:space-between; align-items:baseline; padding:0 16px; margin-bottom:8px; }
+.nearby-title { font-size: 13px; font-weight: 700; }
+.nearby-link  { font-size: 11px; color: var(--blue); font-weight: 500; }
+
+.tc {
+  margin: 0 16px 8px;
+  padding: 12px;
+  display: flex; gap: 10px; align-items: center;
+  cursor: pointer;
+}
+.tc-av { width: 44px; height: 44px; border-radius: 13px; display:flex;align-items:center;justify-content:center; font-size:14px;font-weight:700; flex-shrink:0; }
+.tc-av.b { background:var(--blue-l); color:var(--blue); }
+.tc-av.t { background:var(--teal-l); color:var(--teal); }
+.tc-info { flex:1; min-width:0; }
+.tc-name { font-size:12px; font-weight:700; margin-bottom:1px; }
+.tc-spec { font-size:10px; color:var(--n600); margin-bottom:5px; }
+.tc-tags { display:flex; gap:4px; }
+.tc-tag { background:var(--n100); color:var(--n700); font-size:9px; font-weight:500; padding:2px 6px; border-radius:4px; }
+.tc-right { text-align:right; flex-shrink:0; }
+.tc-dist { font-size:10px; color:var(--n500); margin-bottom:2px; }
+.tc-stars { font-size:11px; font-weight:700; color:var(--n800); }
+.tc-cnt { font-size:9px; color:var(--n500); }
+.online { display:inline-flex;align-items:center;gap:3px;font-size:9px;color:var(--green);font-weight:600;margin-top:2px; }
+.online-dot { width:5px;height:5px;border-radius:50%;background:var(--green); }
+
+/* C2 BOOKING */
+.sel-card {
+  margin:12px 16px;
+  padding:12px; display:flex;gap:10px;align-items:center;
+  border:1.5px solid var(--blue); background:var(--blue-l); border-radius:14px;
+}
+.sel-lbl { display:inline-block;background:var(--blue);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;margin-bottom:3px;letter-spacing:0.3px; }
+.chip-group { padding:0 16px; display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px; }
+
+.price-box {
+  margin:0 16px 14px; padding:13px;
+  background:var(--n50); border:1px solid var(--n200); border-radius:13px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.price-from { font-size:10px; color:var(--n600); margin-bottom:2px; }
+.price-amt  { font-size:24px; font-weight:700; letter-spacing:-0.5px; }
+.price-note { font-size:9px; color:var(--n500); margin-top:3px; }
+.price-icon { width:34px;height:34px;background:var(--blue-l);border-radius:10px;display:flex;align-items:center;justify-content:center; }
+
+.cta-btn {
+  display:block;margin:0 16px;width:calc(100% - 32px);
+  background:var(--blue);color:#fff;font-size:13px;font-weight:600;font-family:var(--f);
+  padding:14px;border-radius:28px;border:none;cursor:pointer;text-align:center;
+  box-shadow:0 2px 8px rgba(26,115,232,0.28);
+}
+.cta-btn.green-btn { background:var(--green); box-shadow:0 2px 8px rgba(30,142,62,0.25); }
+.cta-btn.orange-btn { background:var(--orange); box-shadow:0 2px 8px rgba(227,116,0,0.25); }
+
+/* C3 CONFIRMED */
+.conf-bar { background:var(--green);padding:16px;display:flex;align-items:center;gap:10px; }
+.conf-icon { width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.conf-txt { font-size:13px;font-weight:700;color:#fff; }
+.conf-sub { font-size:10px;color:rgba(255,255,255,0.78); }
+
+.ref-box { margin:14px 16px; border:1px solid var(--n200); border-radius:14px;overflow:hidden; }
+.ref-top { background:var(--n50);padding:9px 13px;display:flex;justify-content:space-between;align-items:center; }
+.ref-num { font-size:11px;font-weight:700;color:var(--n800); }
+.ref-st  { background:var(--green-l);color:var(--green);font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px; }
+.ref-body { padding:12px 13px; }
+.rr { display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px; }
+.rr:last-child { margin-bottom:0; }
+.rr-l { color:var(--n500); }
+.rr-v { color:var(--n800);font-weight:600;text-align:right;max-width:58%; }
+.ref-div { height:1px;background:var(--n200);margin:8px 0; }
+
+.steps-box { margin:0 16px 14px; }
+.s-item { display:flex;gap:10px;align-items:flex-start;padding-bottom:14px; }
+.s-item:last-child { padding-bottom:0; }
+.s-left { display:flex;flex-direction:column;align-items:center;flex-shrink:0; }
+.s-circle { width:26px;height:26px;border-radius:50%;background:var(--green-l);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--green); }
+.s-circle.pend { background:var(--n100);border-color:var(--n300);color:var(--n500); }
+.s-line { width:2px;flex:1;min-height:18px;background:var(--n200);margin-top:3px; }
+.s-content { padding-top:3px; }
+.s-name { font-size:12px;font-weight:600;color:var(--n800);margin-bottom:1px; }
+.s-desc { font-size:10px;color:var(--n500); }
+
+.acts { display:flex;gap:8px;padding:0 16px; }
+.act-btn { flex:1;border:1.5px solid var(--n200);border-radius:12px;padding:9px 6px;background:var(--n0);display:flex;align-items:center;justify-content:center;gap:5px;font-size:11px;font-weight:600;color:var(--n700);font-family:var(--f);cursor:pointer; }
+
+/* C4 PAYMENT */
+.job-sum { margin:12px 16px;padding:13px;background:var(--n50);border:1px solid var(--n200);border-radius:13px; }
+.js-row { display:flex;justify-content:space-between;margin-bottom:7px;font-size:11px; }
+.js-row:last-child{margin-bottom:0}
+.js-lbl { color:var(--n600); }
+.js-val { color:var(--n800);font-weight:500; }
+.js-div { height:1px;background:var(--n200);margin:8px 0; }
+.js-tot .js-lbl{font-weight:700;color:var(--n900)}
+.js-tot .js-val{font-weight:700;color:var(--n900);font-size:13px}
+
+.pay-methods { display:flex;gap:8px;padding:0 16px;margin-bottom:12px; }
+.pm { flex:1;border:1.5px solid var(--n200);border-radius:11px;padding:9px;background:var(--n0);display:flex;align-items:center;gap:7px;cursor:pointer; }
+.pm.on { border-color:var(--blue);background:var(--blue-l); }
+.pm-logo { width:26px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800; }
+.pm-logo.gc{background:#007DFF;color:#fff}
+.pm-logo.my{background:#00A878;color:#fff}
+.pm-name { font-size:11px;font-weight:600;color:var(--n800); }
+
+.qr-surface { margin:0 16px 12px;border:1px solid var(--n200);border-radius:14px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:8px; }
+.qr-box { width:120px;height:120px;background:#fff;border-radius:10px;padding:7px;box-shadow:0 0 0 1px var(--n200);position:relative;display:flex;align-items:center;justify-content:center; }
+.qr-logo { position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:22px;height:22px;background:var(--blue);border-radius:5px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;z-index:2;font-size:8px;font-weight:800;color:#fff;letter-spacing:-0.5px; }
+.qr-hint { font-size:10px;color:var(--n600);text-align:center;line-height:1.4; }
+.qr-secure { display:flex;align-items:center;gap:4px;font-size:10px;color:var(--green);font-weight:500; }
+
+/* C5 RATING */
+.done-bar { background:var(--green);padding:18px;text-align:center; }
+.done-check { width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.2);margin:0 auto 8px;display:flex;align-items:center;justify-content:center; }
+.done-h { font-size:16px;font-weight:700;color:#fff;margin-bottom:2px; }
+.done-s { font-size:10px;color:rgba(255,255,255,0.78); }
+
+.rate-sec { padding:16px;text-align:center; }
+.rate-av { width:52px;height:52px;border-radius:16px;background:var(--blue-l);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-size:20px;font-weight:700;color:var(--blue); }
+.rate-name { font-size:14px;font-weight:700;margin-bottom:2px; }
+.rate-spec { font-size:11px;color:var(--n500);margin-bottom:14px; }
+.rate-prompt { font-size:12px;color:var(--n700);font-weight:500;margin-bottom:10px; }
+.stars-row { display:flex;justify-content:center;gap:8px;margin-bottom:4px; }
+.star-word { font-size:11px;color:var(--amber);font-weight:700;margin-bottom:12px; }
+.tag-group { display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:12px; }
+.r-tag { padding:5px 11px;border-radius:20px;border:1.5px solid var(--n200);font-size:10px;font-weight:500;color:var(--n700);background:var(--n0);cursor:pointer; }
+.r-tag.on { border-color:var(--green);background:var(--green-l);color:var(--green);font-weight:600; }
+.review-box { margin:0 16px 12px;background:var(--n50);border:1px solid var(--n200);border-radius:11px;padding:10px 11px;min-height:46px;font-size:11px;color:var(--n500); }
+
+/* ══════════════════════════════════
+   TECHNICIAN SCREENS
+══════════════════════════════════ */
+
+/* T1 DASHBOARD */
+.t-header { background:var(--orange);padding:16px 16px 20px; }
+.t-top { display:flex;justify-content:space-between;align-items:center;margin-bottom:12px; }
+.t-greeting { font-size:12px;color:rgba(255,255,255,0.8); }
+.t-name { font-size:18px;font-weight:700;color:#fff;letter-spacing:-0.3px; }
+.t-avatar { width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff; }
+.online-toggle { display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.15);border-radius:20px;padding:7px 12px; }
+.toggle-track { width:36px;height:20px;border-radius:20px;background:#fff;position:relative;flex-shrink:0; }
+.toggle-thumb { width:16px;height:16px;border-radius:50%;background:var(--green);position:absolute;top:2px;right:2px;box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+.toggle-txt { font-size:11px;font-weight:700;color:#fff; }
+
+.stats-row { display:flex;gap:8px;padding:0 16px;margin-top:-18px;margin-bottom:14px; }
+.stat-card { flex:1;background:var(--n0);border-radius:12px;padding:10px;border:1px solid var(--n200);text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.stat-val { font-size:16px;font-weight:700;color:var(--n900);letter-spacing:-0.3px; }
+.stat-lbl { font-size:9px;color:var(--n500);margin-top:1px;font-weight:500; }
+
+.area-banner { margin:0 16px 14px;background:var(--orange-l);border:1px solid rgba(227,116,0,0.25);border-radius:11px;padding:9px 12px;display:flex;align-items:center;gap:8px; }
+.area-icon { width:28px;height:28px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.area-txt { font-size:11px;font-weight:600;color:var(--orange); }
+.area-cities { font-size:10px;color:var(--n600); }
+
+.t-sec-head { display:flex;justify-content:space-between;align-items:baseline;padding:0 16px;margin-bottom:8px; }
+.t-sec-title { font-size:13px;font-weight:700; }
+.t-sec-link  { font-size:11px;color:var(--orange);font-weight:500; }
+
+.hist-card { margin:0 16px 8px;padding:12px;display:flex;gap:10px;align-items:center; }
+.hist-icon { width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.hist-icon.ac { background:var(--blue-l); }
+.hist-icon.el { background:var(--amber-l); }
+.hist-name { font-size:12px;font-weight:700;margin-bottom:1px; }
+.hist-det  { font-size:10px;color:var(--n600);margin-bottom:4px; }
+.hist-right { text-align:right;flex-shrink:0; }
+.hist-earn  { font-size:12px;font-weight:700;color:var(--green); }
+.hist-date  { font-size:10px;color:var(--n500); }
+.hist-badge { display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;margin-top:3px; }
+.hist-badge.done { background:var(--green-l);color:var(--green); }
+
+/* T2 JOB ALERT */
+.alert-banner { background:var(--red);padding:14px 16px;display:flex;align-items:center;gap:10px; }
+.alert-dot { width:10px;height:10px;border-radius:50%;background:#fff;animation:pulse 1.2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+.alert-txt { font-size:13px;font-weight:700;color:#fff; }
+.alert-sub { font-size:10px;color:rgba(255,255,255,0.8); }
+
+.job-card { margin:14px 16px;border:1.5px solid var(--n200);border-radius:16px;overflow:hidden; }
+.jc-head { background:var(--n50);padding:10px 13px;display:flex;justify-content:space-between;align-items:center; }
+.jc-type { font-size:12px;font-weight:700;color:var(--n800); }
+.jc-priority { background:var(--red-l);color:var(--red);font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px; }
+.jc-body { padding:13px; }
+.jc-row { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;font-size:11px; }
+.jc-row:last-child{margin-bottom:0}
+.jc-l { color:var(--n500); }
+.jc-v { color:var(--n800);font-weight:600;text-align:right;max-width:60%; }
+.jc-div { height:1px;background:var(--n200);margin:8px 0; }
+.jc-earn { font-size:20px;font-weight:700;color:var(--green);letter-spacing:-0.3px; }
+.jc-earn-lbl { font-size:10px;color:var(--n500); }
+
+.timer-row { margin:0 16px 14px;background:var(--amber-l);border:1px solid rgba(249,171,0,0.3);border-radius:11px;padding:10px 13px;display:flex;justify-content:space-between;align-items:center; }
+.timer-lbl { font-size:11px;font-weight:600;color:var(--orange); }
+.timer-val { font-size:20px;font-weight:700;color:var(--orange);letter-spacing:-0.5px; }
+
+.dbl-btn { display:flex;gap:10px;padding:0 16px; }
+.decline-btn { flex:1;border:1.5px solid var(--n300);border-radius:28px;padding:13px;background:var(--n0);font-size:13px;font-weight:600;font-family:var(--f);color:var(--n700);cursor:pointer;text-align:center; }
+.accept-btn  { flex:2;border:none;border-radius:28px;padding:13px;background:var(--green);font-size:13px;font-weight:600;font-family:var(--f);color:#fff;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(30,142,62,0.3); }
+
+/* T3 JOB ACTIVE */
+.t-job-bar { background:var(--green);padding:14px 16px;display:flex;align-items:center;gap:10px; }
+.t-job-icon { width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.t-job-txt { font-size:13px;font-weight:700;color:#fff; }
+.t-job-sub { font-size:10px;color:rgba(255,255,255,0.8); }
+
+.cust-card { margin:14px 16px;padding:13px;display:flex;gap:10px;align-items:center; }
+.cust-av { width:44px;height:44px;border-radius:13px;background:var(--n100);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:var(--n700);flex-shrink:0; }
+.cust-name { font-size:13px;font-weight:700;margin-bottom:1px; }
+.cust-addr { font-size:10px;color:var(--n600);margin-bottom:5px; }
+.cust-actions { display:flex;gap:5px; }
+.cust-act { padding:4px 10px;border-radius:20px;border:1.5px solid var(--n200);font-size:10px;font-weight:600;color:var(--n700);background:var(--n0);cursor:pointer; }
+
+.checklist { margin:0 16px 14px;border:1px solid var(--n200);border-radius:13px;overflow:hidden; }
+.cl-head { background:var(--n50);padding:9px 13px; }
+.cl-title { font-size:12px;font-weight:700;color:var(--n800); }
+.cl-item { padding:10px 13px;display:flex;align-items:center;gap:10px;border-top:1px solid var(--n200); }
+.cl-check { width:20px;height:20px;border-radius:6px;border:2px solid var(--n300);flex-shrink:0;display:flex;align-items:center;justify-content:center; }
+.cl-check.done { background:var(--green);border-color:var(--green); }
+.cl-txt { font-size:11px;color:var(--n800);font-weight:500; }
+.cl-txt.done { color:var(--n500);text-decoration:line-through; }
+
+.markup-row { display:flex;gap:8px;padding:0 16px;margin-bottom:12px; }
+.markup-card { flex:1;background:var(--n50);border:1px solid var(--n200);border-radius:11px;padding:10px;text-align:center; }
+.markup-val { font-size:15px;font-weight:700;color:var(--n900); }
+.markup-lbl { font-size:9px;color:var(--n500);margin-top:1px; }
+
+/* T4 MARK DONE */
+.fin-surface { margin:14px 16px;border:1px solid var(--n200);border-radius:14px;overflow:hidden; }
+.fin-head { background:var(--n50);padding:10px 13px;display:flex;justify-content:space-between;align-items:center; }
+.fin-title { font-size:12px;font-weight:700;color:var(--n800); }
+.fin-ref { font-size:10px;color:var(--n500); }
+.fin-body { padding:13px; }
+.fin-row { display:flex;justify-content:space-between;margin-bottom:8px;font-size:11px; }
+.fin-row:last-child{margin-bottom:0}
+.fin-l{color:var(--n500)}
+.fin-v{color:var(--n800);font-weight:600}
+.fin-div{height:1px;background:var(--n200);margin:8px 0}
+.fin-total .fin-l{font-weight:700;color:var(--n900);font-size:12px}
+.fin-total .fin-v{font-weight:700;color:var(--green);font-size:16px}
+
+.photo-row { display:flex;gap:7px;padding:0 16px;margin-bottom:14px; }
+.photo-thumb { flex:1;height:58px;background:var(--n100);border-radius:10px;border:1.5px dashed var(--n300);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer; }
+.photo-thumb.filled { background:var(--green-l);border-color:var(--green);border-style:solid; }
+.photo-lbl { font-size:9px;color:var(--n500);font-weight:500;text-align:center; }
+
+.note-box { margin:0 16px 12px;background:var(--amber-l);border:1px solid rgba(249,171,0,0.3);border-radius:11px;padding:9px 12px;display:flex;align-items:center;gap:8px; }
+.note-icon { flex-shrink:0; }
+.note-txt { font-size:10px;color:var(--orange);font-weight:600; }
+.note-sub { font-size:9px;color:var(--n600); }
+
+/* T5 EARNINGS */
+.earn-header { background:var(--orange);padding:16px 16px 20px; }
+.earn-top { display:flex;justify-content:space-between;align-items:center;margin-bottom:14px; }
+.earn-title { font-size:17px;font-weight:700;color:#fff; }
+.earn-period { background:rgba(255,255,255,0.2);border-radius:20px;padding:5px 11px;font-size:11px;font-weight:600;color:#fff; }
+.earn-total { background:rgba(255,255,255,0.15);border-radius:12px;padding:12px;margin-bottom:0; }
+.earn-lbl { font-size:10px;color:rgba(255,255,255,0.75);margin-bottom:3px; }
+.earn-amt  { font-size:30px;font-weight:700;color:#fff;letter-spacing:-0.8px; }
+.earn-sub  { font-size:10px;color:rgba(255,255,255,0.7);margin-top:2px; }
+
+.earn-stats { display:flex;gap:8px;padding:0 16px;margin-top:-10px;margin-bottom:14px; }
+.earn-stat { flex:1;background:var(--n0);border:1px solid var(--n200);border-radius:11px;padding:9px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+.es-val { font-size:15px;font-weight:700;color:var(--n900); }
+.es-lbl { font-size:9px;color:var(--n500);margin-top:1px; }
+
+.txn-head { display:flex;justify-content:space-between;padding:0 16px;margin-bottom:8px; }
+.txn-title { font-size:13px;font-weight:700; }
+.txn-link  { font-size:11px;color:var(--orange);font-weight:500; }
+
+.txn { margin:0 16px 8px;padding:11px;display:flex;gap:10px;align-items:center; }
+.txn-icon { width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.txn-icon.ac { background:var(--blue-l); }
+.txn-icon.pl { background:var(--teal-l); }
+.txn-info { flex:1; }
+.txn-service { font-size:12px;font-weight:600;color:var(--n800);margin-bottom:1px; }
+.txn-cust { font-size:10px;color:var(--n500); }
+.txn-right { text-align:right;flex-shrink:0; }
+.txn-amt { font-size:13px;font-weight:700;color:var(--green); }
+.txn-time { font-size:9px;color:var(--n500);margin-top:1px; }
+
+.withdraw-btn { display:block;margin:4px 16px 0;width:calc(100% - 32px);background:var(--orange);color:#fff;font-size:13px;font-weight:600;font-family:var(--f);padding:13px;border-radius:28px;border:none;cursor:pointer;text-align:center;box-shadow:0 2px 8px rgba(227,116,0,0.25); }
+
+/* ── SVG ICONS HELPERS ── */
+svg { display:block; }
+
+/* ── RESPONSIVE TWEAKS ── */
+@media (max-width: 768px) {
+  .page-hero {
+    padding: 32px 16px 24px;
+  }
+  .wordmark {
+    font-size: 32px;
+  }
+  .page-tagline {
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .area-badge {
+    white-space: normal;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  /* Convert horizontal scroll to a snapped carousel for mobile */
+  .phones-row {
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 50vw; /* Helps center the active phone */
+    padding: 0 16px 24px 16px;
+    gap: 16px;
+  }
+  
+  .ph-col {
+    scroll-snap-align: center;
+  }
+
+  .section-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 16px;
+  }
+  .section-line {
+    display: none; /* Hide line on mobile for cleaner stacking */
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <div class="page-hero">
+    <div class="wordmark">Papa<b>Fix</b></div>
+    <div class="page-tagline">Home Services Platform · Android App Preview · Play Store Release</div>
+    <div class="area-badge">
+      <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M5 0C2.79 0 1 1.79 1 4c0 3 4 8 4 8s4-5 4-8c0-2.21-1.79-4-4-4zm0 5.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z" fill="#1A73E8"/></svg>
+      Serving Tanauan City · Santo Tomas City · Malvar, Batangas only
+    </div>
+  </div>
+
+  <div style="margin-bottom:40px">
+    <div class="section-banner">
+      <div class="section-pill customer">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#fff" stroke-width="2"/><path d="M4 20c0-4 3.58-7 8-7s8 3 8 7" stroke="#fff" stroke-width="2"/></svg>
+        Customer App
+      </div>
+      <div class="section-line"></div>
+      <div class="section-desc">Browse · Book · Pay · Rate</div>
+    </div>
+
+    <div class="phones-row">
+
+      <div class="ph-col">
+        <div class="ph-label">Onboarding</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen" style="background: var(--blue); display: flex; flex-direction: column;">
+              
+              <div class="sb">
+                <span class="sb-time" style="color: #fff;">9:40</span>
+                <div class="sb-right">
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><rect x="0" y="6" width="2.5" height="5" rx="0.5" fill="#fff"/><rect x="3.5" y="4" width="2.5" height="7" rx="0.5" fill="#fff"/><rect x="7" y="2" width="2.5" height="9" rx="0.5" fill="#fff"/><rect x="10.5" y="0" width="2.5" height="11" rx="0.5" fill="#fff"/></svg>
+                  <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#fff" stroke-opacity="0.5"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#fff"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#fff" fill-opacity="0.5"/></svg>
+                </div>
+              </div>
+
+              <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 32px; text-align: center;">
+                <div style="width: 72px; height: 72px; background: #fff; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.15);">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#1A73E8" stroke-width="2"/></svg>
+                </div>
+                <div style="font-size: 32px; font-weight: 700; color: #fff; letter-spacing: -1px; margin-bottom: 12px;">Papa<b>Fix</b></div>
+                <div style="font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.4; margin-bottom: 48px;">Trusted home services,<br>arriving at your doorstep.</div>
+                
+                <button style="width: 100%; background: #fff; color: var(--blue); padding: 16px; border-radius: 28px; border: none; font-size: 14px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">Get Started</button>
+                <div style="margin-top: 16px; font-size: 12px; color: rgba(255,255,255,0.7); font-weight: 500;">Already have an account? <span style="color: #fff; text-decoration: underline;">Log in</span></div>
+              </div>
+
+            </div>
+            <div class="gesture-bar" style="background: var(--blue);"><div class="gesture-pill" style="background: rgba(255,255,255,0.5);"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Home</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen has-nav">
+              <div class="sb">
+                <span class="sb-time">9:41</span>
+                <div class="sb-right">
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><rect x="0" y="6" width="2.5" height="5" rx="0.5" fill="#202124"/><rect x="3.5" y="4" width="2.5" height="7" rx="0.5" fill="#202124"/><rect x="7" y="2" width="2.5" height="9" rx="0.5" fill="#202124"/><rect x="10.5" y="0" width="2.5" height="11" rx="0.5" fill="#202124"/></svg>
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M7 2.5C4.52 2.5 2.29 3.5.7 5.2L2.1 6.6A7.47 7.47 0 0 1 7 4.5c1.86 0 3.56.68 4.9 1.8l1.4-1.4A9.47 9.47 0 0 0 7 2.5z" fill="#202124"/><path d="M7 5.5c-1.65 0-3.14.63-4.27 1.67l1.4 1.4A4.5 4.5 0 0 1 7 7.5c1.07 0 2.05.37 2.83.98l1.4-1.4A6.5 6.5 0 0 0 7 5.5z" fill="#202124"/><circle cx="7" cy="10" r="1.5" fill="#202124"/></svg>
+                  <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg>
+                </div>
+              </div>
+
+              <div class="c-greeting">
+                <div class="c-top">
+                  <div><div class="c-hello">Good morning,</div><div class="c-name">Juan dela Cruz</div></div>
+                  <div class="avatar">JD</div>
+                </div>
+                <div class="loc-row"><div class="loc-dot"></div>Tanauan City, Batangas</div>
+              </div>
+
+              <div class="search-bar">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5.5" stroke="#9AA0A6" stroke-width="1.5"/><path d="M11 11l3 3" stroke="#9AA0A6" stroke-width="1.5" stroke-linecap="round"/></svg>
+                <span>Search for a service...</span>
+              </div>
+
+              <div class="cat-row">
+                <div class="chip on">Aircon</div>
+                <div class="chip">Electrical</div>
+                <div class="chip">Plumbing</div>
+              </div>
+
+              <div class="promo">
+                <div class="promo-eyebrow">Limited offer</div>
+                <div class="promo-h">Aircon Cleaning<br>starts at ₱199</div>
+                <div class="promo-s">Valid until May 31, 2026</div>
+                <div class="promo-cta">Book now</div>
+              </div>
+
+              <div class="nearby-head">
+                <span class="nearby-title">Nearby Technicians</span>
+                <span class="nearby-link">See all</span>
+              </div>
+
+              <div class="tc card">
+                <div class="tc-av b">RD</div>
+                <div class="tc-info">
+                  <div class="tc-name">Romy Dela Rosa</div>
+                  <div class="tc-spec">Aircon Specialist · 7 yrs</div>
+                  <div class="tc-tags"><span class="tc-tag">Inverter</span><span class="tc-tag">Window</span></div>
+                </div>
+                <div class="tc-right">
+                  <div class="tc-dist">0.8 km</div>
+                  <div class="tc-stars">4.9 ★</div>
+                  <div class="tc-cnt">312 reviews</div>
+                  <div class="online"><div class="online-dot"></div>Online</div>
+                </div>
+              </div>
+
+              <div class="tc card">
+                <div class="tc-av t">EM</div>
+                <div class="tc-info">
+                  <div class="tc-name">Ely Marcos</div>
+                  <div class="tc-spec">Electrician · 5 yrs</div>
+                  <div class="tc-tags"><span class="tc-tag">Rewiring</span><span class="tc-tag">Panel</span></div>
+                </div>
+                <div class="tc-right">
+                  <div class="tc-dist">1.3 km</div>
+                  <div class="tc-stars">4.8 ★</div>
+                  <div class="tc-cnt">198 reviews</div>
+                  <div class="online"><div class="online-dot"></div>Online</div>
+                </div>
+              </div>
+              
+              <div class="bottom-nav">
+                <div class="nav-item active">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                  <span>Home</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>Bookings</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                  <div class="nav-pip"></div>
+                  <span>Chat</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span>Profile</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Book</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">9:43</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="topbar">
+                <div class="back-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="#202124" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="topbar-title">Book a Technician</div></div>
+              </div>
+
+              <div class="sel-card">
+                <div class="tc-av b" style="width:42px;height:42px;border-radius:12px;font-size:13px">RD</div>
+                <div>
+                  <div class="sel-lbl">SELECTED</div>
+                  <div style="font-size:12px;font-weight:700">Romy Dela Rosa</div>
+                  <div style="font-size:10px;color:var(--n600)">Aircon Specialist · 4.9 ★ · 0.8 km</div>
+                </div>
+              </div>
+
+              <div class="lbl" style="padding:0 16px">What's the issue?</div>
+              <div class="chip-group">
+                <div class="chip on">Not cooling</div>
+                <div class="chip">Leaking</div>
+                <div class="chip">Noisy</div>
+                <div class="chip">Not turning on</div>
+                <div class="chip">Cleaning</div>
+              </div>
+
+              <div class="lbl" style="padding:0 16px">Unit type</div>
+              <div class="chip-group" style="margin-bottom:12px">
+                <div class="chip on">Window type</div>
+                <div class="chip">Split type</div>
+                <div class="chip">Inverter</div>
+              </div>
+
+              <div class="price-box card">
+                <div>
+                  <div class="price-from">Starting at</div>
+                  <div class="price-amt">₱350</div>
+                  <div class="price-note">+ ₱80 platform fee · final price after check</div>
+                </div>
+                <div class="price-icon">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#1A73E8" stroke-width="1.5"/></svg>
+                </div>
+              </div>
+
+              <button class="cta-btn">Confirm Booking</button>
+              <div style="margin:8px 16px 0;font-size:10px;color:var(--n500);text-align:center">Free cancellation within 5 minutes of booking.</div>
+
+              <div style="padding:14px 16px 0">
+                <div class="lbl">Service area</div>
+                <div style="background:var(--n50);border:1px solid var(--n200);border-radius:11px;padding:10px 12px">
+                  <div style="font-size:11px;color:var(--n700);font-weight:500;margin-bottom:2px">Tanauan City · Santo Tomas City · Malvar</div>
+                  <div style="font-size:10px;color:var(--n500)">Batangas only. Outside-area bookings not supported.</div>
+                </div>
+              </div>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Confirmed</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">9:44</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="conf-bar">
+                <div class="conf-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="conf-txt">Booking Confirmed</div><div class="conf-sub">Romy is on his way · Est. 15–20 min</div></div>
+              </div>
+
+              <div class="ref-box">
+                <div class="ref-top"><span class="ref-num">PF-20260515-0047</span><span class="ref-st">Active</span></div>
+                <div class="ref-body">
+                  <div class="rr"><span class="rr-l">Technician</span><span class="rr-v">Romy Dela Rosa</span></div>
+                  <div class="rr"><span class="rr-l">Service</span><span class="rr-v">Aircon — Not Cooling</span></div>
+                  <div class="rr"><span class="rr-l">Location</span><span class="rr-v">123 Rizal Ave, Tanauan City</span></div>
+                  <div class="ref-div"></div>
+                  <div class="rr"><span class="rr-l">Est. arrival</span><span class="rr-v" style="color:var(--blue);font-weight:700">15 – 20 minutes</span></div>
+                </div>
+              </div>
+
+              <div style="padding:0 16px;margin-bottom:10px"><div class="nearby-title">What happens next</div></div>
+              <div class="steps-box">
+                <div class="s-item">
+                  <div class="s-left"><div class="s-circle">1</div><div class="s-line"></div></div>
+                  <div class="s-content"><div class="s-name">Technician arrives</div><div class="s-desc">Verify his PapaFix ID badge</div></div>
+                </div>
+                <div class="s-item">
+                  <div class="s-left"><div class="s-circle pend">2</div><div class="s-line"></div></div>
+                  <div class="s-content"><div class="s-name">Problem assessed and fixed</div><div class="s-desc">Final price agreed before work starts</div></div>
+                </div>
+                <div class="s-item">
+                  <div class="s-left"><div class="s-circle pend">3</div></div>
+                  <div class="s-content"><div class="s-name">Pay via QR — cashless only</div><div class="s-desc">GCash or Maya, direct to PapaFix</div></div>
+                </div>
+              </div>
+
+              <div class="acts">
+                <div class="act-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 11.65 18a19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 3.18 2 2 0 0 1 4.11 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 15v1.92z" stroke="#1A73E8" stroke-width="1.5"/></svg> Call</div>
+                <div class="act-btn"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="#1A73E8" stroke-width="1.5"/></svg> Message</div>
+                <div class="act-btn" style="color:var(--red)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M18 6L6 18M6 6l12 12" stroke="#D93025" stroke-width="1.5" stroke-linecap="round"/></svg> Cancel</div>
+              </div>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Payment</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">11:32</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="topbar">
+                <div class="back-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="#202124" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="topbar-title">Payment</div><div class="topbar-sub">Booking #PF-20260515-0047</div></div>
+              </div>
+
+              <div class="job-sum">
+                <div class="js-row"><span class="js-lbl">Service fee</span><span class="js-val">₱350.00</span></div>
+                <div class="js-row"><span class="js-lbl">Parts (Freon)</span><span class="js-val">₱150.00</span></div>
+                <div class="js-row"><span class="js-lbl">Platform fee</span><span class="js-val">₱80.00</span></div>
+                <div class="js-div"></div>
+                <div class="js-row js-tot"><span class="js-lbl">Total</span><span class="js-val">₱580.00</span></div>
+              </div>
+
+              <div class="lbl" style="padding:0 16px">Pay with</div>
+              <div class="pay-methods">
+                <div class="pm on"><div class="pm-logo gc">G</div><div class="pm-name">GCash</div></div>
+                <div class="pm"><div class="pm-logo my">M</div><div class="pm-name">Maya</div></div>
+              </div>
+
+              <div class="qr-surface card">
+                <div class="qr-box">
+                  <svg width="106" height="106" viewBox="0 0 114 114" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="4" width="30" height="30" rx="4" fill="none" stroke="#202124" stroke-width="4"/><rect x="12" y="12" width="14" height="14" rx="2" fill="#202124"/>
+                    <rect x="80" y="4" width="30" height="30" rx="4" fill="none" stroke="#202124" stroke-width="4"/><rect x="88" y="12" width="14" height="14" rx="2" fill="#202124"/>
+                    <rect x="4" y="80" width="30" height="30" rx="4" fill="none" stroke="#202124" stroke-width="4"/><rect x="12" y="88" width="14" height="14" rx="2" fill="#202124"/>
+                    <rect x="38" y="4" width="6" height="6" rx="1" fill="#202124"/><rect x="50" y="4" width="6" height="6" rx="1" fill="#202124"/><rect x="62" y="4" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="38" y="16" width="6" height="6" rx="1" fill="#202124"/><rect x="56" y="16" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="38" y="28" width="6" height="6" rx="1" fill="#202124"/><rect x="50" y="28" width="6" height="6" rx="1" fill="#202124"/><rect x="68" y="28" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="4" y="38" width="6" height="6" rx="1" fill="#202124"/><rect x="16" y="38" width="6" height="6" rx="1" fill="#202124"/><rect x="28" y="38" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="44" y="38" width="6" height="6" rx="1" fill="#202124"/><rect x="62" y="38" width="6" height="6" rx="1" fill="#202124"/><rect x="80" y="38" width="6" height="6" rx="1" fill="#202124"/><rect x="98" y="38" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="4" y="50" width="6" height="6" rx="1" fill="#202124"/><rect x="20" y="50" width="6" height="6" rx="1" fill="#202124"/><rect x="44" y="50" width="6" height="6" rx="1" fill="#202124"/><rect x="62" y="50" width="6" height="6" rx="1" fill="#202124"/><rect x="86" y="50" width="6" height="6" rx="1" fill="#202124"/><rect x="104" y="50" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="8" y="62" width="6" height="6" rx="1" fill="#202124"/><rect x="26" y="62" width="6" height="6" rx="1" fill="#202124"/><rect x="98" y="62" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="38" y="74" width="6" height="6" rx="1" fill="#202124"/><rect x="56" y="74" width="6" height="6" rx="1" fill="#202124"/><rect x="80" y="74" width="6" height="6" rx="1" fill="#202124"/><rect x="98" y="74" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="38" y="86" width="6" height="6" rx="1" fill="#202124"/><rect x="62" y="86" width="6" height="6" rx="1" fill="#202124"/><rect x="80" y="86" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="38" y="98" width="6" height="6" rx="1" fill="#202124"/><rect x="56" y="98" width="6" height="6" rx="1" fill="#202124"/><rect x="86" y="98" width="6" height="6" rx="1" fill="#202124"/><rect x="104" y="98" width="6" height="6" rx="1" fill="#202124"/>
+                    <rect x="44" y="110" width="6" height="6" rx="1" fill="#202124"/><rect x="68" y="110" width="6" height="6" rx="1" fill="#202124"/><rect x="92" y="110" width="6" height="6" rx="1" fill="#202124"/>
+                  </svg>
+                  <div class="qr-logo">PF</div>
+                </div>
+                <div class="qr-hint">Scan with GCash or Maya.<br>Payment goes directly to PapaFix Inc.</div>
+                <div class="qr-secure">
+                  <svg width="11" height="13" viewBox="0 0 11 13" fill="none"><path d="M5.5 1L1 2.5V6c0 2.76 1.96 5.34 4.5 6C10.04 11.34 10 8.76 10 6V2.5L5.5 1z" fill="#1E8E3E"/></svg>
+                  Secured · Cashless only
+                </div>
+              </div>
+
+              <button class="cta-btn">Open GCash to Pay ₱580</button>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Rate</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">11:40</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="done-bar">
+                <div class="done-check"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div class="done-h">Job Complete</div>
+                <div class="done-s">Aircon Check-up · PF-20260515-0047</div>
+              </div>
+
+              <div class="rate-sec">
+                <div class="rate-av">RD</div>
+                <div class="rate-name">Romy Dela Rosa</div>
+                <div class="rate-spec">Aircon Specialist</div>
+                <div class="rate-prompt">How was your experience?</div>
+                <div class="stars-row">
+                  <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#F9AB00"/></svg>
+                  <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#F9AB00"/></svg>
+                  <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#F9AB00"/></svg>
+                  <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#F9AB00"/></svg>
+                  <svg width="30" height="30" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#F9AB00"/></svg>
+                </div>
+                <div class="star-word">Excellent</div>
+                <div class="tag-group">
+                  <span class="r-tag on">Quality work</span>
+                  <span class="r-tag on">On time</span>
+                  <span class="r-tag on">Polite</span>
+                  <span class="r-tag">Cleaned up</span>
+                  <span class="r-tag">Fair pricing</span>
+                </div>
+              </div>
+
+              <div class="review-box">Add a comment (optional)...</div>
+              <button class="cta-btn green-btn">Submit Rating</button>
+              <div style="margin:8px 16px 0;font-size:10px;color:var(--n500);text-align:center">Your review supports our technicians.</div>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div>
+    <div class="section-banner">
+      <div class="section-pill tech">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#fff" stroke-width="1.5"/></svg>
+        Technician App
+      </div>
+      <div class="section-line"></div>
+      <div class="section-desc">Go Online · Accept Jobs · Complete · Earn</div>
+    </div>
+
+    <div class="phones-row">
+
+      <div class="ph-col">
+        <div class="ph-label">Dashboard</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen has-nav">
+              <div class="sb" style="background:var(--orange)">
+                <span class="sb-time" style="color:#fff">9:41</span>
+                <div class="sb-right">
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><rect x="0" y="6" width="2.5" height="5" rx="0.5" fill="#fff"/><rect x="3.5" y="4" width="2.5" height="7" rx="0.5" fill="#fff"/><rect x="7" y="2" width="2.5" height="9" rx="0.5" fill="#fff"/><rect x="10.5" y="0" width="2.5" height="11" rx="0.5" fill="#fff"/></svg>
+                  <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#fff" stroke-opacity="0.5"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#fff"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#fff" fill-opacity="0.5"/></svg>
+                </div>
+              </div>
+              <div class="t-header">
+                <div class="t-top">
+                  <div><div class="t-greeting">Good morning,</div><div class="t-name">Mang Romy</div></div>
+                  <div class="t-avatar">RD</div>
+                </div>
+                <div class="online-toggle">
+                  <div class="toggle-track"><div class="toggle-thumb"></div></div>
+                  <span class="toggle-txt">You are Online</span>
+                </div>
+              </div>
+
+              <div class="stats-row">
+                <div class="stat-card"><div class="stat-val">12</div><div class="stat-lbl">Jobs Today</div></div>
+                <div class="stat-card"><div class="stat-val">4.9</div><div class="stat-lbl">Rating</div></div>
+                <div class="stat-card"><div class="stat-val" style="color:var(--green)">₱1,840</div><div class="stat-lbl">Earned Today</div></div>
+              </div>
+
+              <div class="area-banner">
+                <div class="area-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" fill="#fff"/></svg></div>
+                <div>
+                  <div class="area-txt">Active service area</div>
+                  <div class="area-cities">Tanauan City · Santo Tomas City · Malvar, Batangas</div>
+                </div>
+              </div>
+
+              <div class="t-sec-head"><span class="t-sec-title">Recent Jobs</span><span class="t-sec-link">View all</span></div>
+
+              <div class="hist-card card">
+                <div class="hist-icon ac"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="10" rx="3" stroke="#1A73E8" stroke-width="1.5"/><path d="M8 17v3M16 17v3M6 12h12" stroke="#1A73E8" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div class="tc-info">
+                  <div class="hist-name">Aircon Cleaning</div>
+                  <div class="hist-det">Maria Santos · Tanauan City</div>
+                  <div class="tc-tags"><span class="tc-tag">Completed</span></div>
+                </div>
+                <div class="hist-right">
+                  <div class="hist-earn">+₱280</div>
+                  <div class="hist-date">8:15 AM</div>
+                </div>
+              </div>
+
+              <div class="hist-card card">
+                <div class="hist-icon el"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="#E37400" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+                <div class="tc-info">
+                  <div class="hist-name">Electrical Repair</div>
+                  <div class="hist-det">Pedro Cruz · Santo Tomas</div>
+                  <div class="tc-tags"><span class="tc-tag">Completed</span></div>
+                </div>
+                <div class="hist-right">
+                  <div class="hist-earn">+₱450</div>
+                  <div class="hist-date">7:00 AM</div>
+                </div>
+              </div>
+
+              <div class="bottom-nav">
+                <div class="nav-item active-tech">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  <span>Home</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  <span>Jobs</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  <span>Earnings</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span>Profile</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">New Job Alert</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">10:02</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="alert-banner">
+                <div class="alert-dot"></div>
+                <div><div class="alert-txt">New Job Request</div><div class="alert-sub">Accept within 60 seconds</div></div>
+              </div>
+
+              <div class="job-card">
+                <div class="jc-head">
+                  <span class="jc-type">Aircon — Not Cooling</span>
+                  <span class="jc-priority">High Demand</span>
+                </div>
+                <div class="jc-body">
+                  <div class="jc-row"><span class="jc-l">Customer</span><span class="jc-v">Juan dela Cruz</span></div>
+                  <div class="jc-row"><span class="jc-l">Address</span><span class="jc-v">123 Rizal Ave, Tanauan City</span></div>
+                  <div class="jc-row"><span class="jc-l">Unit type</span><span class="jc-v">Window type · 1 HP</span></div>
+                  <div class="jc-row"><span class="jc-l">Distance</span><span class="jc-v">0.8 km from you</span></div>
+                  <div class="jc-div"></div>
+                  <div class="jc-row">
+                    <div><div class="jc-earn-lbl">Your estimated earnings</div><div class="jc-earn">₱280 – ₱420</div></div>
+                    <div style="text-align:right"><div class="jc-earn-lbl">Customer rating</div><div style="font-size:13px;font-weight:700;color:var(--n800)">New customer</div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="timer-row">
+                <span class="timer-lbl">Time to respond</span>
+                <span class="timer-val">0:42</span>
+              </div>
+
+              <div style="margin:0 16px;background:var(--n50);border:1px solid var(--n200);border-radius:11px;padding:9px 12px;margin-bottom:12px">
+                <div style="font-size:10px;font-weight:600;color:var(--n700);margin-bottom:2px">Note from customer</div>
+                <div style="font-size:11px;color:var(--n600)">"Hindi malamig kahit naka-on na ng matagal. Bago pa lang nabili."</div>
+              </div>
+
+              <div class="dbl-btn">
+                <div class="decline-btn">Decline</div>
+                <div class="accept-btn">Accept Job</div>
+              </div>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Job In Progress</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">10:28</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="t-job-bar">
+                <div class="t-job-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#fff" stroke-width="1.5"/></svg></div>
+                <div><div class="t-job-txt">Job In Progress</div><div class="t-job-sub">Aircon — Not Cooling · #PF-20260515-0047</div></div>
+              </div>
+
+              <div class="cust-card card" style="margin:12px 16px">
+                <div class="cust-av">JD</div>
+                <div style="flex:1">
+                  <div class="cust-name">Juan dela Cruz</div>
+                  <div class="cust-addr">123 Rizal Ave, Tanauan City</div>
+                  <div class="cust-actions">
+                    <div class="cust-act">Call customer</div>
+                    <div class="cust-act">Message</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="checklist">
+                <div class="cl-head"><div class="cl-title">Service Checklist</div></div>
+                <div class="cl-item">
+                  <div class="cl-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                  <div class="cl-txt done">Initial inspection complete</div>
+                </div>
+                <div class="cl-item">
+                  <div class="cl-check done"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                  <div class="cl-txt done">Price agreed with customer</div>
+                </div>
+                <div class="cl-item">
+                  <div class="cl-check"></div>
+                  <div class="cl-txt">Clean filters and coils</div>
+                </div>
+                <div class="cl-item">
+                  <div class="cl-check"></div>
+                  <div class="cl-txt">Check refrigerant level</div>
+                </div>
+                <div class="cl-item">
+                  <div class="cl-check"></div>
+                  <div class="cl-txt">Test cooling performance</div>
+                </div>
+              </div>
+
+              <div class="markup-row">
+                <div class="markup-card"><div class="markup-val">₱350</div><div class="markup-lbl">Service</div></div>
+                <div class="markup-card"><div class="markup-val">₱150</div><div class="markup-lbl">Parts</div></div>
+                <div class="markup-card"><div class="markup-val" style="color:var(--green)">₱500</div><div class="markup-lbl">Subtotal</div></div>
+              </div>
+
+              <button class="cta-btn orange-btn">Mark Job as Complete</button>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Mark Complete</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen">
+              <div class="sb"><span class="sb-time">11:20</span><div class="sb-right"><svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#202124" stroke-opacity="0.35"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#202124"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#202124" fill-opacity="0.4"/></svg></div></div>
+              <div class="topbar">
+                <div class="back-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 2L4 7l5 5" stroke="#202124" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+                <div><div class="topbar-title">Complete Job</div><div class="topbar-sub">#PF-20260515-0047</div></div>
+              </div>
+
+              <div class="fin-surface">
+                <div class="fin-head"><span class="fin-title">Final Bill Summary</span><span class="fin-ref">For customer confirmation</span></div>
+                <div class="fin-body">
+                  <div class="fin-row"><span class="fin-l">Service fee</span><span class="fin-v">₱350</span></div>
+                  <div class="fin-row"><span class="fin-l">Parts used (Freon)</span><span class="fin-v">₱150</span></div>
+                  <div class="fin-row"><span class="fin-l">Platform fee</span><span class="fin-v">₱80</span></div>
+                  <div class="fin-div"></div>
+                  <div class="fin-row fin-total"><span class="fin-l">Customer pays</span><span class="fin-v">₱580</span></div>
+                  <div class="fin-div"></div>
+                  <div class="fin-row"><span class="fin-l">Your earnings</span><span class="fin-v" style="color:var(--green)">₱420</span></div>
+                </div>
+              </div>
+
+              <div class="lbl" style="padding:0 16px;margin-bottom:8px">Upload proof photos <span style="color:var(--n500);font-weight:400">(required)</span></div>
+              <div class="photo-row">
+                <div class="photo-thumb filled">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#1E8E3E" stroke-width="2" stroke-linecap="round"/></svg>
+                  <div class="photo-lbl" style="color:var(--green)">Before</div>
+                </div>
+                <div class="photo-thumb">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#9AA0A6" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#9AA0A6" stroke-width="1.5"/></svg>
+                  <div class="photo-lbl">After</div>
+                </div>
+                <div class="photo-thumb">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#9AA0A6" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="#9AA0A6" stroke-width="1.5"/></svg>
+                  <div class="photo-lbl">Parts used</div>
+                </div>
+              </div>
+
+              <div class="note-box">
+                <div class="note-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="#E37400" stroke-width="1.5"/><line x1="12" y1="9" x2="12" y2="13" stroke="#E37400" stroke-width="1.5"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="#E37400" stroke-width="2"/></svg></div>
+                <div>
+                  <div class="note-txt">QR payment will generate after this step</div>
+                  <div class="note-sub">Customer pays via GCash or Maya. No cash accepted.</div>
+                </div>
+              </div>
+
+              <button class="cta-btn green-btn">Confirm &amp; Generate Payment QR</button>
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ph-col">
+        <div class="ph-label">Earnings</div>
+        <div class="android">
+          <div class="android-bezel">
+            <div class="punch-hole"><div class="ph-cam"></div></div>
+            <div class="screen has-nav">
+              <div class="sb" style="background:var(--orange)">
+                <span class="sb-time" style="color:#fff">11:45</span>
+                <div class="sb-right">
+                  <svg width="14" height="11" viewBox="0 0 14 11" fill="none"><rect x="0" y="6" width="2.5" height="5" rx="0.5" fill="#fff"/><rect x="3.5" y="4" width="2.5" height="7" rx="0.5" fill="#fff"/><rect x="7" y="2" width="2.5" height="9" rx="0.5" fill="#fff"/><rect x="10.5" y="0" width="2.5" height="11" rx="0.5" fill="#fff"/></svg>
+                  <svg width="22" height="11" viewBox="0 0 22 11" fill="none"><rect x="0.5" y="0.5" width="18" height="10" rx="2.5" stroke="#fff" stroke-opacity="0.5"/><rect x="1.5" y="1.5" width="13" height="8" rx="1.5" fill="#fff"/><path d="M19.5 3.5v4a2 2 0 0 0 0-4z" fill="#fff" fill-opacity="0.5"/></svg>
+                </div>
+              </div>
+              <div class="earn-header">
+                <div class="earn-top">
+                  <div class="earn-title">My Earnings</div>
+                  <div class="earn-period">Today, May 15</div>
+                </div>
+                <div class="earn-total">
+                  <div class="earn-lbl">Total earned today</div>
+                  <div class="earn-amt">₱2,260</div>
+                  <div class="earn-sub">8 jobs completed · avg ₱282 per job</div>
+                </div>
+              </div>
+
+              <div class="earn-stats">
+                <div class="earn-stat"><div class="es-val">8</div><div class="es-lbl">Jobs Done</div></div>
+                <div class="earn-stat"><div class="es-val">4.9</div><div class="es-lbl">Avg Rating</div></div>
+                <div class="earn-stat"><div class="es-val" style="color:var(--green)">₱0</div><div class="es-lbl">Pending</div></div>
+              </div>
+
+              <div class="txn-head"><span class="txn-title">Transactions</span><span class="txn-link">Export</span></div>
+
+              <div class="txn card" style="margin:0 16px 8px">
+                <div class="txn-icon ac"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="10" rx="3" stroke="#1A73E8" stroke-width="1.5"/><path d="M6 12h12" stroke="#1A73E8" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div class="txn-info"><div class="txn-service">Aircon Cleaning</div><div class="txn-cust">Juan dela Cruz · Tanauan City</div></div>
+                <div class="txn-right"><div class="txn-amt">+₱420</div><div class="txn-time">11:32 AM · GCash</div></div>
+              </div>
+
+              <div class="txn card" style="margin:0 16px 8px">
+                <div class="txn-icon pl"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2a5 5 0 0 1 5 5v3H7V7a5 5 0 0 1 5-5z" stroke="#00897B" stroke-width="1.5"/><path d="M5 10h14l-1 10H6L5 10z" stroke="#00897B" stroke-width="1.5"/></svg></div>
+                <div class="txn-info"><div class="txn-service">Plumbing Repair</div><div class="txn-cust">Ana Reyes · Santo Tomas</div></div>
+                <div class="txn-right"><div class="txn-amt">+₱380</div><div class="txn-time">10:10 AM · Maya</div></div>
+              </div>
+
+              <div class="txn card" style="margin:0 16px 8px">
+                <div class="txn-icon ac"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="2" y="7" width="20" height="10" rx="3" stroke="#1A73E8" stroke-width="1.5"/><path d="M6 12h12" stroke="#1A73E8" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+                <div class="txn-info"><div class="txn-service">Aircon Repair</div><div class="txn-cust">Ben Santos · Malvar</div></div>
+                <div class="txn-right"><div class="txn-amt">+₱580</div><div class="txn-time">8:45 AM · GCash</div></div>
+              </div>
+
+              <button class="withdraw-btn" style="margin-bottom: 24px;">Withdraw Earnings to GCash</button>
+
+              <div class="bottom-nav">
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                  <span>Home</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                  <span>Jobs</span>
+                </div>
+                <div class="nav-item active-tech">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                  <span>Earnings</span>
+                </div>
+                <div class="nav-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span>Profile</span>
+                </div>
+              </div>
+
+            </div>
+            <div class="gesture-bar"><div class="gesture-pill"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;font-size:12px;color:var(--n500)">
+    <strong style="color:var(--blue)">PapaFix</strong> · Android (Play Store) · Tanauan City · Santo Tomas City · Malvar, Batangas · Cashless only — GCash &amp; Maya
+  </div>
+
+</div>
+</body>
+</html>
