@@ -47,7 +47,7 @@ body {
 
 .page-hero {
   text-align: center;
-  padding: 52px 24px 40px;
+  padding: 88px 24px 40px;
 }
 .wordmark {
   font-size: 40px;
@@ -1806,26 +1806,26 @@ svg { display:block; }
 
           <div class="goog-nav-section">
             <div class="goog-nav-label">Main</div>
-            <div class="goog-nav-item active">
+            <div class="goog-nav-item active" data-page="overview">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/></svg> Overview
             </div>
-            <div class="goog-nav-item">
+            <div class="goog-nav-item" data-page="bookings">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" stroke="currentColor" stroke-width="2"/><rect x="8" y="2" width="8" height="4" rx="1" stroke="currentColor" stroke-width="2"/></svg> Bookings <div class="goog-nav-badge blue">12</div>
             </div>
-            <div class="goog-nav-item">
+            <div class="goog-nav-item" data-page="technicians">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Technicians
             </div>
-            <div class="goog-nav-item">
+            <div class="goog-nav-item" data-page="customers">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/></svg> Customers
             </div>
           </div>
           <div class="goog-nav-divider"></div>
           <div class="goog-nav-section">
             <div class="goog-nav-label">Finance</div>
-            <div class="goog-nav-item">
+            <div class="goog-nav-item" data-page="payouts">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Payouts
             </div>
-            <div class="goog-nav-item">
+            <div class="goog-nav-item" data-page="disputes">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" stroke="currentColor" stroke-width="2"/><line x1="12" y1="9" x2="12" y2="13" stroke="currentColor" stroke-width="2"/><line x1="12" y1="17" x2="12.01" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Disputes <div class="goog-nav-badge">3</div>
             </div>
           </div>
@@ -1841,11 +1841,11 @@ svg { display:block; }
           </div>
         </div>
 
-        <div class="admin-main">
+        <div class="admin-main" id="adminMain">
           <div class="goog-appbar">
             <div class="goog-appbar-left">
               <div class="goog-breadcrumb">
-                <div class="goog-bc-item">PapaFix Admin</div><div class="goog-bc-sep">›</div><div class="goog-bc-current">Overview</div>
+                <div class="goog-bc-item">PapaFix Admin</div><div class="goog-bc-sep">›</div><div class="goog-bc-current" id="adminBreadcrumb">Overview</div>
               </div>
             </div>
             <div class="goog-appbar-right">
@@ -1861,7 +1861,7 @@ svg { display:block; }
             </div>
           </div>
 
-          <div class="admin-content">
+          <div class="admin-content" id="adminContent">
             <div class="admin-pg-title">Good morning, Ana!</div>
             <div class="admin-pg-sub">Thursday, May 15, 2026 · Here's what's happening in Batangas today.</div>
 
@@ -2020,11 +2020,65 @@ svg { display:block; }
     </div>
   </div>
 
-  <div style="text-align:center;margin-top:48px;font-size:12px;color:var(--n500);padding-bottom:64px">
-    <strong style="color:var(--blue)">PapaFix</strong> · Android (Play Store) · Tanauan City · Santo Tomas City · Malvar, Batangas · Cashless only — GCash &amp; Maya
-  </div>
 
 </div>
+
+<!-- ── FOOTER ── -->
+<footer style="margin-top:80px;border-top:1px solid var(--n200);background:var(--n0)">
+  <div style="max-width:1600px;margin:0 auto;padding:48px 40px 32px;display:flex;gap:48px;flex-wrap:wrap;justify-content:space-between">
+    <div style="min-width:200px;max-width:280px">
+      <div style="font-size:24px;font-weight:800;letter-spacing:-0.5px;color:var(--n900);margin-bottom:10px">Papa<span style="color:var(--blue)">Fix</span></div>
+      <div style="font-size:13px;color:var(--n600);line-height:1.6;margin-bottom:20px">Trusted home services for Tanauan City, Santo Tomas City, and Malvar — booked in seconds, paid cashlessly.</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:6px;background:var(--n100);border-radius:8px;padding:6px 12px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="5" y="2" width="14" height="20" rx="2" stroke="#5F6368" stroke-width="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke="#5F6368" stroke-width="2" stroke-linecap="round"/></svg>
+          <span style="font-size:11px;font-weight:600;color:var(--n700)">Android App</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:6px;background:var(--blue-l);border-radius:8px;padding:6px 12px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect x="1" y="4" width="22" height="16" rx="2" stroke="#1A73E8" stroke-width="2"/><line x1="1" y1="10" x2="23" y2="10" stroke="#1A73E8" stroke-width="2"/></svg>
+          <span style="font-size:11px;font-weight:600;color:var(--blue)">GCash &amp; Maya</span>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:48px;flex-wrap:wrap">
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--n500);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px">Platform</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Customer App</a>
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Technician App</a>
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Admin Console</a>
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Landing Page</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--n500);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px">Services</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Aircon Repair &amp; Cleaning</a>
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Plumbing</a>
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Electrical</a>
+          <a href="#" style="font-size:13px;color:var(--n700);text-decoration:none;font-weight:500">Apply as Technician</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;color:var(--n500);letter-spacing:0.8px;text-transform:uppercase;margin-bottom:14px">Coverage</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-size:13px;color:var(--n700);font-weight:500">📍 Tanauan City</div>
+          <div style="font-size:13px;color:var(--n700);font-weight:500">📍 Santo Tomas City</div>
+          <div style="font-size:13px;color:var(--n700);font-weight:500">📍 Malvar, Batangas</div>
+          <div style="font-size:13px;color:var(--n500);font-style:italic">More areas coming soon</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="border-top:1px solid var(--n100);padding:16px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;max-width:1600px;margin:0 auto">
+    <div style="font-size:12px;color:var(--n500)">© 2026 PapaFix. All rights reserved. · Batangas, Philippines</div>
+    <div style="display:flex;gap:20px">
+      <a href="#" style="font-size:12px;color:var(--n500);text-decoration:none">Privacy Policy</a>
+      <a href="#" style="font-size:12px;color:var(--n500);text-decoration:none">Terms of Service</a>
+      <a href="#" style="font-size:12px;color:var(--n500);text-decoration:none">Contact</a>
+    </div>
+  </div>
+</footer>
 
 <style>
 .phones-row-wrap { position: relative; }
@@ -2100,5 +2154,276 @@ svg { display:block; }
   });
 </script>
 
-</body>
-</html>
+
+<script>
+/* ── Admin Dashboard Tab Switching ── */
+(function() {
+  const pages = {
+    overview: {
+      breadcrumb: 'Overview',
+      render: () => document.getElementById('adminContent').innerHTML
+    },
+    bookings: {
+      breadcrumb: 'Bookings',
+      render: () => `
+        <div class="admin-pg-title">Bookings</div>
+        <div class="admin-pg-sub">Thursday, May 15, 2026 · 247 bookings today — 12 pending assignment.</div>
+        <div style="display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap">
+          <div style="background:var(--blue);color:#fff;font-size:12px;font-weight:600;padding:7px 16px;border-radius:20px;cursor:pointer">All (247)</div>
+          <div style="background:var(--n0);border:1px solid var(--n200);font-size:12px;font-weight:500;color:var(--n700);padding:7px 16px;border-radius:20px;cursor:pointer">Pending (12)</div>
+          <div style="background:var(--n0);border:1px solid var(--n200);font-size:12px;font-weight:500;color:var(--n700);padding:7px 16px;border-radius:20px;cursor:pointer">En Route (34)</div>
+          <div style="background:var(--n0);border:1px solid var(--n200);font-size:12px;font-weight:500;color:var(--n700);padding:7px 16px;border-radius:20px;cursor:pointer">In Progress (57)</div>
+          <div style="background:var(--n0);border:1px solid var(--n200);font-size:12px;font-weight:500;color:var(--n700);padding:7px 16px;border-radius:20px;cursor:pointer">Completed (144)</div>
+        </div>
+        <div class="md3-card">
+          <div class="md3-card-header">
+            <div class="md3-card-title">All Bookings — Today</div>
+            <div style="display:flex;gap:8px;align-items:center">
+              <div style="background:var(--n100);border-radius:8px;padding:6px 12px;font-size:12px;color:var(--n700);cursor:pointer">Export CSV</div>
+            </div>
+          </div>
+          <table class="md3-table">
+            <thead><tr><th>Booking ID</th><th>Service</th><th>Customer</th><th>Technician</th><th>Location</th><th>Time</th><th>Amount</th><th>Status</th></tr></thead>
+            <tbody>
+              ${[
+                ['#PF-20260515-0247','Aircon Repair','Maria Santos','Romy Dela Rosa','Tanauan City','9:12 AM','₱850','En route'],
+                ['#PF-20260515-0246','Plumbing Fix','Jose Ramos','Jun Pascual','Sto. Tomas','9:08 AM','₱650','In progress'],
+                ['#PF-20260515-0245','Electrical','Claire Uy','Ely Lopez','Malvar','8:55 AM','₱700','Completed'],
+                ['#PF-20260515-0244','Aircon Cleaning','Ben Cruz','Romy Dela Rosa','Tanauan City','8:40 AM','₱399','Completed'],
+                ['#PF-20260515-0243','Aircon Repair','Ana Reyes','—','Tanauan City','8:35 AM','₱850','Pending'],
+                ['#PF-20260515-0242','Plumbing Fix','Ramon Lim','Jun Pascual','Sto. Tomas','8:20 AM','₱600','Completed'],
+                ['#PF-20260515-0241','Electrical','Luisa Bautista','Ely Lopez','Malvar','8:05 AM','₱720','Completed'],
+                ['#PF-20260515-0240','Aircon Cleaning','Pedro Torres','Mario Reyes','Tanauan City','7:50 AM','₱399','Completed'],
+              ].map(([id,svc,cust,tech,loc,time,amt,status]) => {
+                const chipColor = status==='En route'?'var(--green)':status==='In progress'?'var(--blue)':status==='Pending'?'var(--orange)':'var(--n600)';
+                const chipBg = status==='En route'?'var(--green-l)':status==='In progress'?'var(--blue-l)':status==='Pending'?'var(--orange-l)':'var(--n100)';
+                return `<tr>
+                  <td style="color:var(--blue);font-weight:600;font-size:11px">${id}</td>
+                  <td>${svc}</td><td>${cust}</td><td>${tech}</td><td style="color:var(--n500)">${loc}</td>
+                  <td style="color:var(--n500)">${time}</td>
+                  <td style="color:var(--green);font-weight:600">${amt}</td>
+                  <td><span style="background:${chipBg};color:${chipColor};font-size:10px;font-weight:600;padding:3px 9px;border-radius:8px">${status}</span></td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+          <div style="padding:12px 18px;border-top:1px solid var(--n100);font-size:12px;color:var(--n500)">Showing 8 of 247 bookings · <span style="color:var(--blue);cursor:pointer;font-weight:500">Load more</span></div>
+        </div>`
+    },
+    technicians: {
+      breadcrumb: 'Technicians',
+      render: () => `
+        <div class="admin-pg-title">Technicians</div>
+        <div class="admin-pg-sub">Thursday, May 15, 2026 · 38 online now · 12 offline · 4 pending verification.</div>
+        <div class="md3-kpi-row">
+          ${[
+            ['#E8F0FE','#1A73E8','38','Online Now'],
+            ['#E6F4EA','#1E8E3E','54','Total Active'],
+            ['#FFF3E0','#E37400','4','Pending KYC'],
+            ['#FCE8E6','#D93025','2','Suspended'],
+          ].map(([bg,color,val,lbl]) => `
+            <div class="md3-kpi-card"><div class="md3-kpi-val" style="color:${color}">${val}</div><div class="md3-kpi-lbl">${lbl}</div></div>
+          `).join('')}
+        </div>
+        <div class="md3-card">
+          <div class="md3-card-header"><div class="md3-card-title">All Technicians</div>
+            <div style="background:var(--green);color:#fff;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer">+ Invite Technician</div>
+          </div>
+          <table class="md3-table">
+            <thead><tr><th>Name</th><th>Specialty</th><th>Area</th><th>Jobs (Today)</th><th>Earnings (Today)</th><th>Rating</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+              ${[
+                ['RD','Romy Dela Rosa','Aircon','Tanauan City','11','₱4,620','⭐ 5.0','Online'],
+                ['JP','Jun Pascual','Plumbing','Sto. Tomas','9','₱3,780','⭐ 4.9','Online'],
+                ['EL','Ely Lopez','Electrical','Malvar','8','₱3,200','⭐ 4.8','Online'],
+                ['MR','Mario Reyes','Aircon','Tanauan City','7','₱2,940','⭐ 4.7','Offline'],
+                ['RC','Rico Castillo','Plumbing','Sto. Tomas','6','₱2,400','⭐ 4.6','Online'],
+                ['BT','Boboy Tan','Electrical','Malvar','5','₱2,000','⭐ 4.5','Online'],
+              ].map(([init,name,spec,area,jobs,earn,rating,status]) => {
+                const isOnline = status==='Online';
+                return `<tr>
+                  <td><div class="md3-cell-name"><div class="md3-av-xs" style="${isOnline?'':'background:var(--n100);color:var(--n600)'}">${init}</div>${name}</div></td>
+                  <td>${spec}</td><td style="color:var(--n500)">${area}</td>
+                  <td><strong>${jobs}</strong></td>
+                  <td style="color:var(--green);font-weight:500">${earn}</td>
+                  <td>${rating}</td>
+                  <td><div class="md3-online-chip ${isOnline?'on':'off'}">${status}</div></td>
+                  <td><button class="md3-text-btn">View</button></td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>`
+    },
+    customers: {
+      breadcrumb: 'Customers',
+      render: () => `
+        <div class="admin-pg-title">Customers</div>
+        <div class="admin-pg-sub">Thursday, May 15, 2026 · 1,284 registered customers · 247 active today.</div>
+        <div class="md3-kpi-row">
+          ${[
+            ['1,284','Total Customers'],
+            ['247','Active Today'],
+            ['38','New This Week'],
+            ['4.6★','Avg Satisfaction'],
+          ].map(([val,lbl]) => `<div class="md3-kpi-card"><div class="md3-kpi-val">${val}</div><div class="md3-kpi-lbl">${lbl}</div></div>`).join('')}
+        </div>
+        <div class="md3-card">
+          <div class="md3-card-header"><div class="md3-card-title">Recent Customers</div></div>
+          <table class="md3-table">
+            <thead><tr><th>Name</th><th>Location</th><th>Total Bookings</th><th>Total Spent</th><th>Last Booking</th><th>Rating Given</th><th></th></tr></thead>
+            <tbody>
+              ${[
+                ['JD','Juan dela Cruz','Tanauan City','14','₱9,240','May 15, 2026','⭐ 5.0'],
+                ['MS','Maria Santos','Tanauan City','9','₱5,820','May 15, 2026','⭐ 4.8'],
+                ['JR','Jose Ramos','Sto. Tomas','7','₱4,350','May 15, 2026','⭐ 4.5'],
+                ['CU','Claire Uy','Malvar','5','₱2,800','May 14, 2026','⭐ 5.0'],
+                ['BC','Ben Cruz','Tanauan City','12','₱7,600','May 14, 2026','⭐ 4.7'],
+                ['AR','Ana Reyes','Tanauan City','3','₱1,400','May 15, 2026','—'],
+              ].map(([init,name,loc,bookings,spent,lastDate,rating]) => `<tr>
+                <td><div class="md3-cell-name"><div class="md3-av-xs" style="background:var(--blue-l);color:var(--blue)">${init}</div>${name}</div></td>
+                <td style="color:var(--n500)">${loc}</td>
+                <td><strong>${bookings}</strong></td>
+                <td style="color:var(--green);font-weight:500">${spent}</td>
+                <td style="color:var(--n500)">${lastDate}</td>
+                <td>${rating}</td>
+                <td><button class="md3-text-btn">Profile</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`
+    },
+    payouts: {
+      breadcrumb: 'Payouts',
+      render: () => `
+        <div class="admin-pg-title">Payouts</div>
+        <div class="admin-pg-sub">Thursday, May 15, 2026 · ₱41,860 pending payout to 38 technicians.</div>
+        <div class="md3-kpi-row">
+          ${[
+            ['₱41,860','Pending Payout','var(--amber)'],
+            ['₱318,240','Paid This Week','var(--green)'],
+            ['38','Techs Awaiting','var(--blue)'],
+            ['₱8,456','Platform Fee (Today)','var(--n900)'],
+          ].map(([val,lbl,color]) => `<div class="md3-kpi-card"><div class="md3-kpi-val" style="color:${color}">${val}</div><div class="md3-kpi-lbl">${lbl}</div></div>`).join('')}
+        </div>
+        <div class="md3-card">
+          <div class="md3-card-header"><div class="md3-card-title">Pending Payouts</div>
+            <div style="background:var(--orange);color:#fff;font-size:12px;font-weight:600;padding:6px 14px;border-radius:8px;cursor:pointer">Process All</div>
+          </div>
+          <table class="md3-table">
+            <thead><tr><th>Technician</th><th>Specialty</th><th>Jobs</th><th>Gross</th><th>Platform Fee (15%)</th><th>Net Payout</th><th>Method</th><th></th></tr></thead>
+            <tbody>
+              ${[
+                ['RD','Romy Dela Rosa','Aircon','11','₱5,320','₱798','₱4,522','GCash'],
+                ['JP','Jun Pascual','Plumbing','9','₱4,450','₱668','₱3,782','GCash'],
+                ['EL','Ely Lopez','Electrical','8','₱3,760','₱564','₱3,196','Maya'],
+                ['MR','Mario Reyes','Aircon','7','₱3,460','₱519','₱2,941','GCash'],
+                ['RC','Rico Castillo','Plumbing','6','₱2,820','₱423','₱2,397','GCash'],
+                ['BT','Boboy Tan','Electrical','5','₱2,350','₱353','₱1,998','Maya'],
+              ].map(([init,name,spec,jobs,gross,fee,net,method]) => `<tr>
+                <td><div class="md3-cell-name"><div class="md3-av-xs">${init}</div>${name}</div></td>
+                <td>${spec}</td><td><strong>${jobs}</strong></td>
+                <td>${gross}</td>
+                <td style="color:var(--red)">${fee}</td>
+                <td style="color:var(--green);font-weight:700">${net}</td>
+                <td><span style="font-size:11px;font-weight:600;color:var(--blue)">${method}</span></td>
+                <td><button class="md3-text-btn">Pay</button></td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`
+    },
+    disputes: {
+      breadcrumb: 'Disputes',
+      render: () => `
+        <div class="admin-pg-title">Disputes</div>
+        <div class="admin-pg-sub">Thursday, May 15, 2026 · 3 open disputes need your attention.</div>
+        <div class="md3-kpi-row">
+          ${[
+            ['3','Open','var(--red)'],
+            ['12','Resolved This Week','var(--green)'],
+            ['1.4 days','Avg Resolution Time','var(--blue)'],
+            ['96%','Resolution Rate','var(--n900)'],
+          ].map(([val,lbl,color]) => `<div class="md3-kpi-card"><div class="md3-kpi-val" style="color:${color}">${val}</div><div class="md3-kpi-lbl">${lbl}</div></div>`).join('')}
+        </div>
+        <div class="md3-card">
+          <div class="md3-card-header"><div class="md3-card-title">Open Disputes</div></div>
+          <table class="md3-table">
+            <thead><tr><th>Ticket ID</th><th>Type</th><th>Customer</th><th>Technician</th><th>Booking</th><th>Filed</th><th>Severity</th><th></th></tr></thead>
+            <tbody>
+              ${[
+                ['#PF-20260515-0031','Overcharging claim','Maria Santos','Romy Dela Rosa','#PF-20260514-0188','May 14, 2026','High'],
+                ['#PF-20260515-0019','Payment not reflected','Jose Ramos','Jun Pascual','#PF-20260514-0099','May 14, 2026','High'],
+                ['#PF-20260514-0088','Rating complaint','Ely Lopez','—','#PF-20260513-0211','May 13, 2026','Medium'],
+              ].map(([ticket,type,cust,tech,booking,filed,sev]) => {
+                const isHigh = sev==='High';
+                return `<tr>
+                  <td style="color:var(--red);font-weight:600;font-size:11px">${ticket}</td>
+                  <td>${type}</td><td>${cust}</td><td>${tech}</td>
+                  <td style="color:var(--blue);font-size:11px">${booking}</td>
+                  <td style="color:var(--n500)">${filed}</td>
+                  <td><span style="background:${isHigh?'var(--red-l)':'var(--amber-l)'};color:${isHigh?'var(--red)':'var(--orange)'};font-size:10px;font-weight:700;padding:3px 9px;border-radius:8px">${sev}</span></td>
+                  <td><button class="md3-text-btn">Review</button></td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="md3-card" style="margin-top:12px">
+          <div class="md3-card-header"><div class="md3-card-title">Recently Resolved</div></div>
+          <table class="md3-table">
+            <thead><tr><th>Ticket ID</th><th>Type</th><th>Resolution</th><th>Resolved By</th><th>Date</th></tr></thead>
+            <tbody>
+              ${[
+                ['#PF-20260514-0071','Refund request','Full refund issued','Ana Domingo','May 14, 2026'],
+                ['#PF-20260514-0055','No-show technician','Rebooking + ₱50 credit','Ana Domingo','May 14, 2026'],
+                ['#PF-20260513-0180','Service quality','Partial refund issued','Ana Domingo','May 13, 2026'],
+              ].map(([id,type,res,by,date]) => `<tr>
+                <td style="color:var(--n600);font-size:11px">${id}</td>
+                <td>${type}</td>
+                <td style="color:var(--green);font-weight:500">${res}</td>
+                <td>${by}</td>
+                <td style="color:var(--n500)">${date}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>`
+    }
+  };
+
+  // Capture the initial overview HTML once DOM is ready
+  let overviewHTML = null;
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const contentEl = document.getElementById('adminContent');
+    const breadcrumb = document.getElementById('adminBreadcrumb');
+    overviewHTML = contentEl ? contentEl.innerHTML : '';
+
+    document.querySelectorAll('[data-page]').forEach(navItem => {
+      navItem.addEventListener('click', () => {
+        const page = navItem.dataset.page;
+
+        // Update active state
+        document.querySelectorAll('[data-page]').forEach(n => n.classList.remove('active'));
+        navItem.classList.add('active');
+
+        // Scroll admin-main to top
+        const adminMain = document.getElementById('adminMain');
+        if (adminMain) adminMain.scrollTop = 0;
+
+        // Update breadcrumb
+        if (breadcrumb) breadcrumb.textContent = pages[page]?.breadcrumb || page;
+
+        // Render content
+        if (contentEl) {
+          if (page === 'overview') {
+            contentEl.innerHTML = overviewHTML;
+          } else {
+            contentEl.innerHTML = pages[page]?.render() || '';
+          }
+        }
+      });
+    });
+  });
+})();
+</script>
